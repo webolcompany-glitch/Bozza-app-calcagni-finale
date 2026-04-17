@@ -255,8 +255,7 @@ if st.session_state.page == "dashboard":
     ✔ Puoi cambiare le frasi liberamente
     ❌ Non cancellare o modificare i simboli tecnici
     """)
-    st.code("""
-    
+        
     template = st.text_area(
         "Modifica il messaggio",
         value=st.session_state.email_template,
