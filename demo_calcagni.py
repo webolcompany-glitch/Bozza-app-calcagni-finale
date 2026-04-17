@@ -301,10 +301,12 @@ if st.session_state.page == "dashboard":
 
             wa = f"https://wa.me/{tel}?text={msg_encoded}"
 
-            st.markdown(
-                st.link_button("📲 WhatsApp", wa),
-                unsafe_allow_html=False
-             )
+            st.markdown(f"""
+            **{c['Nome']}**
+
+            """)
+
+            st.link_button("📲 WhatsApp", wa)
 
         with col2:
             if c["Email"] and pd.notna(c["Email"]):
