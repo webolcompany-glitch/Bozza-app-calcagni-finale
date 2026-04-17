@@ -122,8 +122,7 @@ Per via delle attuali fluttuazioni di mercato i prezzi in elenco avranno una val
 
 Le consegne dei prodotti avverranno entro il giorno dopo alla data di effettuazione dell’ordine.<br><br>
 
-<b>ATTENZIONE!!!</b> GLI ORDINI DOVRANNO PERVENIRE ENTRO LE ORE 14:00<br><br>
-
+<b>ATTENZIONE!!!</b> GLI ORDINI DOVRANNO PERVENIRE ENTRO LE ORE 14:00 RISPONDENDO ALLA PRESENTE OPPURE CHIAMANDO AL NUMERO DI TELEFONO<br><br>
 Rag. Silvio Calcagni -335/6145323                 Luigi Calcagni - 3209364267
 
 <hr>
@@ -131,20 +130,13 @@ Rag. Silvio Calcagni -335/6145323                 Luigi Calcagni - 3209364267
 <b>Long Life Consulting</b><br>
 Luigi Calcagni<br>
 Corso Italia, 46 – 80011 Acerra (NA)<br><br>
-
 Mob: 3209364267<br>
 Info: info@longlifecons.com<br><br>
-
 <img src="https://longlifecons.com/wp-content/Prodotti/Logo%20TAMOIL.jpg" width="180"><br><br>
-
 Wholeses Fuels - Fuel Cards - Coupons<br><br>
-
 Agente di<br><br>
-
 Via Andrea Costa, 17 20131 Milano, ITALIA<br><br>
-
 Tel: 800 11 33 30<br><br>
-
 <hr>
 
 <small>
