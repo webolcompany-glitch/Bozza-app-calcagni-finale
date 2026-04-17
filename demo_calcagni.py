@@ -248,23 +248,15 @@ if st.session_state.page == "dashboard":
     st.markdown("### ✉️ Messaggio Email")
     st.info("""
     ⚠️ ATTENZIONE
-
     Modifica solo il contenuto del messaggio.
-
     NON modificare:
     - i tag HTML (es. <b>, <br>, <hr>)
     - le variabili tra parentesi graffe (es. {prezzo}, {nome}, {data})
-
     ✔ Puoi cambiare le frasi liberamente
     ❌ Non cancellare o modificare i simboli tecnici
     """)
-
     st.code("""
-    VARIABILI DISPONIBILI:
-    {nome}   → nome cliente
-    {prezzo} → prezzo carburante
-    {data}   → data odierna
-     """)
+    
     template = st.text_area(
         "Modifica il messaggio",
         value=st.session_state.email_template,
