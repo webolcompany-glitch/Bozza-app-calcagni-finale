@@ -24,13 +24,16 @@ st.markdown(f"## 🏢 Azienda: {azienda.upper()}")
 EMAIL_MITTENTE = "webolcompany@gmail.com"
 PASSWORD_APP = "neqr ewtb bdkr lmca"
 
-def invia_email(destinatario, prezzo):
+def invia_email(destinatario, prezzo, template, nome=""):
     try:
         data = datetime.now().strftime("%d/%m/%Y")
 
-        msg = MIMEText(
-            f"Buongiorno,\n\nIl prezzo di oggi è {prezzo:.3f} €/L\n\nGrazie"
-        )
+        testo = template\
+            .replace("{prezzo}", f"{prezzo:.3f}")\
+            .replace("{nome}", nome)\
+            .replace("{data}", data)
+
+        msg = MIMEText(testo)
         msg["Subject"] = f"OFFERTA CARBURANTE - {data}"
         msg["From"] = EMAIL_MITTENTE
         msg["To"] = destinatario
@@ -104,6 +107,24 @@ if "edit_id" not in st.session_state:
 
 if "prezzo_base" not in st.session_state:
     st.session_state.prezzo_base = 1.000
+
+if "email_template" not in st.session_state:
+    st.session_state.email_template = """Gentile cliente,
+
+con la presente le formuliamo la nostra migliore offerta sui prodotti utilizzati dalla Vostra azienda ''ipotizzando'' un presunto scarico per la giornata in oggetto.
+
+Gasolio per autotrazione = {prezzo}/litro + Iva
+
+Per via delle attuali fluttuazioni di mercato i prezzi in elenco avranno una validità giornaliera.
+
+Le consegne dei prodotti avverranno entro il giorno dopo alla data di effettuazione dell’ordine.
+
+ATTENZIONE!!! GLI ORDINI DOVRANNO PERVENIRE ENTRO LE ORE 14:00 RISPONDENDO ALLA PRESENTE OPPURE CHIAMANDO AL NUMERO DI TELEFONO
+
+La presente comunicazione, con le informazioni in essa contenute e ogni documento o file allegato, e' strettamente riservata e soggetta alle garanzie che legano i rapporti tra le parti interessate. E' rivolta unicamente alla/e persona/e cui e' indirizzata ed alle altre da questa autorizzata/e a riceverla. Se non siete i destinatari/autorizzati siete avvisati che qualsiasi azione, copia, comunicazione, divulgazione o simili basate sul contenuto di tali informazioni e' vietata e potrebbe essere contro la legge (art. 616 e seguenti C.P., regolamento UE 2016/679). Se avete ricevuto questa comunicazione per errore, vi preghiamo di darne immediata notizia al mittente a mezzo telefono, fax o e-mail e di distruggere il messaggio originale e ogni file allegato senza farne copia alcuna o riprodurne in alcun modo il contenuto. Grazie. Long Life Consulting.
+
+This e-mail and its attachments are intended for the addressee(s) only and are confidential and/or may contain legally privileged information. If you have received this message by mistake or are not one of the addressees above, you may take no action based on it, and you may not copy or show it to anyone; please reply to this e-mail and point out the error which has occurred. Thank you. Long Life Consulting.
+"""
 
 df = st.session_state.clienti
 
@@ -180,9 +201,20 @@ if st.session_state.page == "dashboard":
 
     st.divider()
 
-    # =========================
-    # 🚀 MASS EMAIL
-    # =========================
+    # TEMPLATE EMAIL
+    st.markdown("### ✉️ Messaggio Email")
+
+    template = st.text_area(
+        "Modifica il messaggio (usa {prezzo}, {nome}, {data})",
+        value=st.session_state.email_template,
+        height=300
+    )
+
+    st.session_state.email_template = template
+
+    st.divider()
+
+    # MASS EMAIL
     if st.button("📧 Invia email a tutti"):
 
         count = 0
@@ -192,7 +224,7 @@ if st.session_state.page == "dashboard":
 
                 prezzo = calc_price(prezzo_base, c["Margine"], c["Trasporto"])
 
-                invia_email(c["Email"], prezzo)
+                invia_email(c["Email"], prezzo, template, c["Nome"])
 
                 st.session_state.clienti.loc[
                     st.session_state.clienti["ID"] == c["ID"],
@@ -204,9 +236,7 @@ if st.session_state.page == "dashboard":
         save_data(st.session_state.clienti)
         st.success(f"Email inviate: {count}")
 
-    # =========================
-    # 👤 LISTA CLIENTI
-    # =========================
+    # LISTA CLIENTI
     st.markdown("### 👤 Clienti")
 
     search_dash = st.text_input("🔍 Cerca", key="search_dashboard")
@@ -244,7 +274,7 @@ if st.session_state.page == "dashboard":
 
                     prezzo_send = calc_price(prezzo_base, c["Margine"], c["Trasporto"])
 
-                    invia_email(c["Email"], prezzo_send)
+                    invia_email(c["Email"], prezzo_send, template, c["Nome"])
 
                     st.session_state.clienti.loc[
                         st.session_state.clienti["ID"] == c["ID"],
