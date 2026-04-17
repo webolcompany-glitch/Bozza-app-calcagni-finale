@@ -111,7 +111,7 @@ if "edit_id" not in st.session_state:
 if "prezzo_base" not in st.session_state:
     st.session_state.prezzo_base = 1.000
 
-# 🔥 FIX RICHIESTO: stesso contenuto usato anche come base messaggio
+# 🔥 FIX: template sincronizzato (stesso contenuto editor + invio)
 if "email_template" not in st.session_state:
     st.session_state.email_template = """Gentile cliente,<br><br>
 
@@ -203,7 +203,7 @@ if st.session_state.page == "dashboard":
 
     st.divider()
 
-    # EMAIL TEMPLATE
+    # EMAIL TEMPLATE (MODIFICA)
     st.markdown("### ✉️ Messaggio Email")
 
     template = st.text_area(
@@ -212,11 +212,11 @@ if st.session_state.page == "dashboard":
         height=300
     )
 
-    # 🔥 FIX: sincronizzazione messaggio
     st.session_state.email_template = template
 
     st.divider()
 
+    # INVIO MASSIVO
     if st.button("📧 Invia email a tutti"):
 
         count = 0
@@ -238,6 +238,7 @@ if st.session_state.page == "dashboard":
         save_data(st.session_state.clienti)
         st.success(f"Email inviate: {count}")
 
+    # LISTA CLIENTI
     st.markdown("### 👤 Clienti")
 
     search_dash = st.text_input("🔍 Cerca", key="search_dashboard")
@@ -246,6 +247,7 @@ if st.session_state.page == "dashboard":
     for _, c in df_view.iterrows():
 
         prezzo = calc_price(prezzo_base, c["Margine"], c["Trasporto"])
+
         ultimo = c["UltimoPrezzo"]
         ultimo_txt = "Nessun invio" if pd.isna(ultimo) else format_euro(ultimo) + " €/L"
 
@@ -256,5 +258,131 @@ if st.session_state.page == "dashboard":
         📌 Ultimo: **{ultimo_txt}**
         """)
 
+        col1, col2, col3 = st.columns(3)
+
+        with col1:
+            tel = str(c["Telefono"]).replace("+", "").replace(" ", "")
+            msg = f"Prezzo oggi {format_euro(prezzo)} €/L"
+            wa = f"https://wa.me/{tel}?text={msg.replace(' ', '%20')}"
+
+            st.markdown(
+                f"<a href='{wa}' target='_blank' style='display:block;padding:8px;background:#22c55e;color:white;text-align:center;border-radius:10px;'>WhatsApp</a>",
+                unsafe_allow_html=True
+            )
+
+        with col2:
+            if c["Email"] and pd.notna(c["Email"]):
+                if st.button("📧 Email", key=f"mail_{c['ID']}"):
+
+                    prezzo_send = calc_price(prezzo_base, c["Margine"], c["Trasporto"])
+
+                    invia_email(c["Email"], prezzo_send, template, c["Nome"])
+
+                    st.session_state.clienti.loc[
+                        st.session_state.clienti["ID"] == c["ID"],
+                        "UltimoPrezzo"
+                    ] = prezzo_send
+
+                    save_data(st.session_state.clienti)
+                    st.success("Email inviata")
+
+        with col3:
+            if st.button("🗑️ Elimina", key=f"del_{c['ID']}"):
+                st.session_state.clienti = df[df["ID"] != c["ID"]]
+                save_data(st.session_state.clienti)
+                st.rerun()
+
         st.divider()
-        
+
+# =========================================================
+# 👤 CLIENTI PAGE
+# =========================================================
+elif st.session_state.page == "clienti":
+
+    st.markdown("## 👤 Clienti")
+
+    search = st.text_input("🔍 Cerca cliente")
+    df_view = filtra_clienti(df, search)
+
+    for _, c in df_view.iterrows():
+
+        ultimo_txt = "Nessun invio" if pd.isna(c["UltimoPrezzo"]) else format_euro(c["UltimoPrezzo"]) + " €/L"
+
+        st.markdown(f"""
+        ### 👤 {c['Nome']}
+        📄 {c['PIVA']}  
+        📞 {c['Telefono']}  
+        💰 Ultimo: {ultimo_txt}
+        """)
+
+        col1, col2 = st.columns(2)
+
+        with col1:
+            if st.button("✏️ Modifica", key=f"edit_{c['ID']}"):
+                st.session_state.edit_id = c["ID"]
+                st.session_state.page = "cliente"
+
+        with col2:
+            if st.button("🗑️ Elimina", key=f"del_list_{c['ID']}"):
+                st.session_state.clienti = df[df["ID"] != c["ID"]]
+                save_data(st.session_state.clienti)
+                st.rerun()
+
+        st.divider()
+
+# =========================================================
+# ➕ CLIENTE (AGGIUNGI / MODIFICA)
+# =========================================================
+elif st.session_state.page == "cliente":
+
+    st.markdown("## ➕ Cliente")
+
+    editing = st.session_state.edit_id is not None
+
+    if editing:
+        c = df[df["ID"] == st.session_state.edit_id].iloc[0]
+    else:
+        c = {"Nome":"","PIVA":"","Telefono":"","Email":"","Margine":0.0,"Trasporto":0.0}
+
+    nome = st.text_input("Nome", value=c["Nome"])
+    piva = st.text_input("P.IVA", value=c["PIVA"])
+    tel = st.text_input("Telefono", value=c["Telefono"])
+    email = st.text_input("Email", value=c["Email"])
+
+    margine = st.number_input("Margine", value=float(c["Margine"]), step=0.001, format="%.3f")
+    trasporto = st.number_input("Trasporto", value=float(c["Trasporto"]), step=0.001, format="%.3f")
+
+    if st.button("💾 Salva"):
+
+        if editing:
+            idx = st.session_state.clienti["ID"] == st.session_state.edit_id
+
+            st.session_state.clienti.loc[idx, "Nome"] = nome
+            st.session_state.clienti.loc[idx, "PIVA"] = piva
+            st.session_state.clienti.loc[idx, "Telefono"] = tel
+            st.session_state.clienti.loc[idx, "Email"] = email
+            st.session_state.clienti.loc[idx, "Margine"] = margine
+            st.session_state.clienti.loc[idx, "Trasporto"] = trasporto
+
+            st.session_state.edit_id = None
+
+        else:
+            new_id = 1 if df.empty else int(df["ID"].max()) + 1
+
+            new = pd.DataFrame([{
+                "ID": new_id,
+                "Nome": nome,
+                "PIVA": piva,
+                "Telefono": tel,
+                "Email": email,
+                "Margine": margine,
+                "Trasporto": trasporto,
+                "UltimoPrezzo": None
+            }])
+
+            st.session_state.clienti = pd.concat([df, new], ignore_index=True)
+
+        save_data(st.session_state.clienti)
+        st.success("Salvato")
+        st.session_state.page = "clienti"
+        st.rerun()
