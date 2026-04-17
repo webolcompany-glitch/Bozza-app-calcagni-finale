@@ -155,8 +155,30 @@ This e-mail and its attachments are intended for the addressee(s) only and are c
 """
 
 if "wa_template" not in st.session_state:
-    st.session_state.wa_template = st.session_state.email_template
+    st.session_state.wa_template = """Gentile cliente {nome},
 
+con la presente le formuliamo la nostra migliore offerta sui prodotti utilizzati dalla Vostra azienda ''ipotizzando'' un presunto scarico per la giornata di seguito indicata.
+
+📅 Data: {data}
+
+Gasolio per autotrazione = {prezzo}/litro + Iva
+
+Per via delle attuali fluttuazioni di mercato i prezzi in elenco avranno una validità giornaliera.
+
+Le consegne dei prodotti avverranno entro il giorno dopo alla data di effettuazione dell’ordine.
+
+ATTENZIONE!!! GLI ORDINI DOVRANNO PERVENIRE ENTRO LE ORE 14:00 RISPONDENDO ALLA PRESENTE OPPURE CHIAMANDO AL NUMERO DI TELEFONO
+Rag. Silvio Calcagni -335/6145323                 Luigi Calcagni - 3209364267
+
+Cordiali saluti
+Long Life Consulting
+Luigi Calcagni
+Corso Italia, 46 – 80011 Acerra (NA)
+Mob: 3209364267
+Info : info@longlifecons.com
+Wholeses Fuels - Fuel Cards - Coupons
+Agente di TAMOIL ITALIA S.P.A
+"""
 df = st.session_state.clienti
 
 # =========================
