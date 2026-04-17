@@ -109,23 +109,45 @@ if "prezzo_base" not in st.session_state:
     st.session_state.prezzo_base = 1.000
 
 if "email_template" not in st.session_state:
-    st.session_state.email_template = """Gentile cliente,
+    st.session_state.email_template = """Gentile cliente,<br><br>
 
-con la presente le formuliamo la nostra migliore offerta sui prodotti utilizzati dalla Vostra azienda ''ipotizzando'' un presunto scarico per la giornata in oggetto.
+con la presente le formuliamo la nostra migliore offerta sui prodotti utilizzati dalla Vostra azienda ''ipotizzando'' un presunto scarico per la giornata in oggetto.<br><br>
 
-Gasolio per autotrazione = {prezzo}/litro + Iva
+<b>Gasolio per autotrazione = {prezzo}/litro + Iva</b><br><br>
 
-Per via delle attuali fluttuazioni di mercato i prezzi in elenco avranno una validità giornaliera.
+Per via delle attuali fluttuazioni di mercato i prezzi in elenco avranno una validità giornaliera.<br><br>
 
-Le consegne dei prodotti avverranno entro il giorno dopo alla data di effettuazione dell’ordine.
+Le consegne dei prodotti avverranno entro il giorno dopo alla data di effettuazione dell’ordine.<br><br>
 
-ATTENZIONE!!! GLI ORDINI DOVRANNO PERVENIRE ENTRO LE ORE 14:00 RISPONDENDO ALLA PRESENTE OPPURE CHIAMANDO AL NUMERO DI TELEFONO
+<b>ATTENZIONE!!!</b> GLI ORDINI DOVRANNO PERVENIRE ENTRO LE ORE 14:00<br><br>
 
-Rag. Silvio Calcagni -335/6145323                 Luigi Calcagni - 3209364267
+<hr>
 
+<b>Long Life Consulting</b><br>
+Luigi Calcagni<br>
+Corso Italia, 46 – 80011 Acerra (NA)<br><br>
+
+Mob: 3209364267<br>
+Info: info@longlifecons.com<br><br>
+
+<!-- FOTO -->
+<img src="https://longlifecons.com/wp-content/Prodotti/Logo%20TAMOIL.jpg" width="180"><br><br>
+
+Wholeses Fuels - Fuel Cards - Coupons<br><br>
+
+Agente di<br><br>
+
+Via Andrea Costa, 17 20131 Milano, ITALIA<br><br>
+
+Tel: 800 11 33 30<br><br>
+
+<hr>
+
+<small>
 La presente comunicazione, con le informazioni in essa contenute e ogni documento o file allegato, e' strettamente riservata e soggetta alle garanzie che legano i rapporti tra le parti interessate. E' rivolta unicamente alla/e persona/e cui e' indirizzata ed alle altre da questa autorizzata/e a riceverla. Se non siete i destinatari/autorizzati siete avvisati che qualsiasi azione, copia, comunicazione, divulgazione o simili basate sul contenuto di tali informazioni e' vietata e potrebbe essere contro la legge (art. 616 e seguenti C.P., regolamento UE 2016/679). Se avete ricevuto questa comunicazione per errore, vi preghiamo di darne immediata notizia al mittente a mezzo telefono, fax o e-mail e di distruggere il messaggio originale e ogni file allegato senza farne copia alcuna o riprodurne in alcun modo il contenuto. Grazie. Long Life Consulting.
 
 This e-mail and its attachments are intended for the addressee(s) only and are confidential and/or may contain legally privileged information. If you have received this message by mistake or are not one of the addressees above, you may take no action based on it, and you may not copy or show it to anyone; please reply to this e-mail and point out the error which has occurred. Thank you. Long Life Consulting.
+</small>
 """
 
 df = st.session_state.clienti
