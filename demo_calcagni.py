@@ -112,7 +112,7 @@ if "prezzo_base" not in st.session_state:
     st.session_state.prezzo_base = 1.000
 
 if "email_template" not in st.session_state:
-    st.session_state.email_template = """<div style="font-family: Arial, sans-serif; font-size:12px; line-height:1.5; color:#000000;">
+    st.session_state.email_template = """<div style="font-family: Arial, sans-serif; font-size:11px; line-height:1.5; color:#000000;">
 
 Gentile cliente,<br><br>
 
@@ -128,7 +128,6 @@ Le consegne dei prodotti avverranno entro il giorno dopo alla data di effettuazi
 
 Rag. Silvio Calcagni - 335/6145323 &nbsp;&nbsp;&nbsp; Luigi Calcagni - 3209364267
 
-<hr>
 
 <!-- FIRMA -->
 <div style="font-family: Arial, sans-serif; font-size:12px; line-height:1.4; color:#2F5496; margin-top:10px;">
