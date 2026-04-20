@@ -145,7 +145,6 @@ Info: <span style="color:#2F5496;">info@longlifecons.com</span>
 <br>
 <br>
 <br>
-<br>
 <p style="color:#2F5496;">
 Wholeses Fuels - Fuel Cards - Coupons<br>
 <b>Agente di</b><br><br>
