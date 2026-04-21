@@ -25,7 +25,7 @@ st.markdown(f"## 🏢 Azienda: {azienda.upper()}")
 EMAIL_MITTENTE = st.secrets["EMAIL_MITTENTE"]
 PASSWORD_APP = st.secrets["PASSWORD_APP"]
 
-def invia_email(destinatario, prezzo, template, nome=""):
+def invia_email(destinatari, prezzo, template, nome=""):
     try:
         data = datetime.now().strftime("%d/%m/%Y")
 
@@ -37,14 +37,30 @@ def invia_email(destinatario, prezzo, template, nome=""):
         msg = MIMEMultipart("alternative")
         msg["Subject"] = f"OFFERTA CARBURANTE - {data}"
         msg["From"] = EMAIL_MITTENTE
-        msg["To"] = destinatario
+
+        # 👉 lista email
+        lista_email = [e.strip() for e in destinatari.split(",") if e.strip()]
+
+        if not lista_email:
+            return
+
+        msg["To"] = lista_email[0]
+
+        if len(lista_email) > 1:
+            msg["Cc"] = ", ".join(lista_email[1:])
 
         msg.attach(MIMEText(testo, "html", "utf-8"))
 
         server = smtplib.SMTP("smtp.gmail.com", 587)
         server.starttls()
         server.login(EMAIL_MITTENTE, PASSWORD_APP)
-        server.send_message(msg)
+
+        server.sendmail(
+            EMAIL_MITTENTE,
+            lista_email,
+            msg.as_string()
+        )
+
         server.quit()
 
     except Exception as e:
