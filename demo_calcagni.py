@@ -127,13 +127,12 @@ Le consegne dei prodotti avverranno entro il giorno dopo alla data di effettuazi
 <b>ATTENZIONE!!!</b> GLI ORDINI DOVRANNO PERVENIRE ENTRO LE ORE 14:00 RISPONDENDO ALLA PRESENTE OPPURE CHIAMANDO AL NUMERO DI TELEFONO<br><br>
 
 Rag. Silvio Calcagni - 335/6145323 &nbsp;&nbsp;&nbsp; Luigi Calcagni - 3209364267
-
-<br>
-<br>
-<br>
 <!-- FIRMA -->
 <div style="font-family: Arial, sans-serif; font-size:12px; line-height:1.4; color:#2F5496; margin-top:10px;">
-
+<br>
+<br>
+<br>
+<br>
 <p><b>Long Life Consulting</b></p>
 
 <p>
