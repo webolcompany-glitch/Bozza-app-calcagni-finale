@@ -452,7 +452,13 @@ elif st.session_state.page == "cliente":
     nome = st.text_input("Nome", value=c["Nome"])
     piva = st.text_input("P.IVA", value=c["PIVA"])
     tel = st.text_input("Telefono", value=c["Telefono"])
-    email = st.text_input("Email", value=c["Email"])
+    email = st.text_input(
+    "Email",
+    value=c["Email"],
+    placeholder="es: principale@mail.com, cc@mail.com"
+)
+
+st.caption("ℹ️ Scrivi prima l'email principale. Le successive separate da virgola saranno usate come CC (conoscenza).")
 
     margine = st.number_input("Margine", value=float(c["Margine"]), step=0.001, format="%.3f")
     trasporto = st.number_input("Trasporto", value=float(c["Trasporto"]), step=0.001, format="%.3f")
